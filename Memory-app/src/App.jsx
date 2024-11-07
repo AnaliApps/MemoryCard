@@ -1,6 +1,7 @@
 import { useEffect,useState } from 'react'
 import Card from './components/Card'
 import './App.css'
+import Score from './components/Score'
 
 function App() {
     const [records,setRecords] = useState([])
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <>
+      <Score/>
       <Card records={records}/>
     </>
   )
