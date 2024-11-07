@@ -1,33 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect,useState } from 'react'
+import Card from './components/Card'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [records,setRecords] = useState([])
+    const [allImages,setAllImages] = useState([])
+    const [allInfo,setAllInfo] = useState([])
+
+    const url2 = ()=>{
+      let url3= []
+      for(let i=1;i<51;i++){
+          url3.push(`https://pokeapi.co/api/v2/pokemon/${i}/`)
+      }
+      return url3;
+    }
+
+    const urlsToFetch = [...url2()]
+
+    const fetchUrls = async(urls)=>{
+      try{
+        const promises = urls.map(url=>fetch(url));
+        const responses = await Promise.all(promises)
+        const data = await Promise.all(responses.map(response=>response.json()));
+        return data
+      }catch(error){
+        throw new Error(`Failed to fetch data: ${error}`)
+      }
+    }
+    useEffect(()=>{
+      fetchUrls(urlsToFetch).then((data)=>setRecords([...data]))
+      .catch(error=>console.log(error))
+    })
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Card records={records}/>
     </>
   )
 }
