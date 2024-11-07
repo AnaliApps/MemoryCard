@@ -1,6 +1,7 @@
 function Score(){
     return (
-        <header>
+        
+        <header className="header_container">
             <div>
                 <h3>MEMORY CARD GAME</h3>
             </div>
