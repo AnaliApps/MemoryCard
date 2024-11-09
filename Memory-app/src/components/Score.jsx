@@ -1,4 +1,4 @@
-function Score(){
+function Score({score,bestScore}){
     return (
         
         <header className="header_container">
@@ -6,8 +6,8 @@ function Score(){
                 <h3>MEMORY CARD GAME</h3>
             </div>
             <div>
-                <p>Score: <b>0</b></p>
-                <p>Best Score: <b>450</b></p>
+                <p>Score: <b>{score}</b></p>
+                <p>Best Score: <b>{bestScore}</b></p>
             </div>
         </header>
         )

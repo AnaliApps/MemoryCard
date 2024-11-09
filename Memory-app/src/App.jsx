@@ -5,8 +5,9 @@ import Score from './components/Score'
 
 function App() {
     const [records,setRecords] = useState([])
-    const [allImages,setAllImages] = useState([])
-    const [allInfo,setAllInfo] = useState([])
+    const [visited,setVisited] = useState([])
+    const [score,setScore] = useState(0)
+    const [bestScore, setBestScore] = useState(0)
 
     const url2 = ()=>{
       let url3= []
@@ -32,11 +33,33 @@ function App() {
       fetchUrls(urlsToFetch).then((data)=>setRecords([...data]))
       .catch(error=>console.log(error))
     })
-
+    function handleClick(e){
+      let present = visited.filter((item)=>item.id === e)
+    if(present.length>0){
+      setScore((score)=>{
+        setBestScore(score)
+        let updatedScore = score -1
+        console.log(updatedScore)
+        score = 0;
+        updatedScore = score;
+        return updatedScore
+      })
+    }else{
+      setVisited((updatedinfo)=>{
+      let updated = [...updatedinfo,{id:e}]
+      return updated;
+    })
+    setScore((score)=>{
+        let updatedScore = score + 1
+        console.log(updatedScore)
+        return updatedScore
+      })
+    }
+    }
   return (
     <>
-      <Score/>
-      <Card records={records}/>
+      <Score score={score} bestScore={bestScore}/>
+      <Card records={records} handleClick={handleClick}/>
     </>
   )
 }
