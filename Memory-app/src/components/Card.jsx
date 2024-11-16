@@ -1,12 +1,13 @@
-function Card({records,handleClick}){
+function Card({shuffle,records,handleClick}){
+    let shuffled = shuffle(records)
     return (
     <>
-        {records.map((item,index)=>
+        {shuffled.map((item,index)=>
               <ul key={index} className="allImageData">
                 <li>
-                  <div className="card" id={index} onClick={(e)=>handleClick(e.target.id)}>
+                  <div className="card" id={item.id} onClick={(e)=>handleClick(e.target.id)}>
                     <div className="imageCont">
-                        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${index}.png`} alt={`pokemon_${index}`} width='200px' height='200px'/>
+                        <img src={item.url} alt={`pokemon_${item.id}`} width='200px' height='150px'/>
                     </div>
                     <div className="nameIdInfo">
                       <p>{item.name} <span>#{item.id}</span></p>

@@ -6,6 +6,7 @@ import Score from './components/Score'
 function App() {
     const [records,setRecords] = useState([])
     const [visited,setVisited] = useState([])
+    // const [shuffled,setShuffledArray] = useState([...records])
     const [score,setScore] = useState(0)
     const [bestScore, setBestScore] = useState(0)
 
@@ -30,11 +31,38 @@ function App() {
       }
     }
     useEffect(()=>{
-      fetchUrls(urlsToFetch).then((data)=>setRecords([...data]))
-      .catch(error=>console.log(error))
-    })
+      fetchUrls(urlsToFetch).then((data)=>{
+        let allData = []
+        return data.forEach((item,index)=>{
+          allData.push({'id':item.id,'name':item.name,'url':`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${index}.png`})
+          localStorage.setItem('allRecords',JSON.stringify(allData))
+      })
+      
+      })
+      .catch(error=>console.log(error))      
+        })
+   useEffect(()=>{
+    let getStoredData = localStorage.getItem('allRecords');
+    let storedData = JSON.parse(getStoredData)
+    setRecords(storedData)
+   },[])
+     
+    function shuffle(arr){
+      let shuffledArray = [];
+      let usedIndexes = [];
+      let i = 0;
+      while(i < arr.length){
+        let randomNumber = Math.floor(Math.random()*arr.length)
+        if(!usedIndexes.includes(randomNumber)){
+          shuffledArray.push(arr[randomNumber]);
+          usedIndexes.push(randomNumber)
+          i++
+        }
+      }
+      return shuffledArray
+    }
     function handleClick(e){
-      let present = visited.filter((item)=>item.id === e)
+    let present = visited.filter((item)=>item.id === e)
     if(present.length>0){
       setScore((score)=>{
         setBestScore(score)
@@ -55,11 +83,12 @@ function App() {
         return updatedScore
       })
     }
+    // shuffle(records)
     }
   return (
     <>
       <Score score={score} bestScore={bestScore}/>
-      <Card records={records} handleClick={handleClick}/>
+      <Card records={records} shuffle={shuffle} handleClick={handleClick}/>
     </>
   )
 }

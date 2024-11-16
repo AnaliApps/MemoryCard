@@ -3,7 +3,7 @@ function Score({score,bestScore}){
         
         <header className="header_container">
             <div>
-                <h3>MEMORY CARD GAME</h3>
+                <h1>MEMORY CARD GAME</h1>
             </div>
             <div>
                 <p>Score: <b>{score}</b></p>
