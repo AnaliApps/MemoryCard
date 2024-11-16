@@ -6,7 +6,6 @@ import Score from './components/Score'
 function App() {
     const [records,setRecords] = useState([])
     const [visited,setVisited] = useState([])
-    // const [shuffled,setShuffledArray] = useState([...records])
     const [score,setScore] = useState(0)
     const [bestScore, setBestScore] = useState(0)
 
@@ -83,7 +82,6 @@ function App() {
         return updatedScore
       })
     }
-    // shuffle(records)
     }
   return (
     <>
